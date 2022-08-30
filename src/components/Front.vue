@@ -1,21 +1,25 @@
 <template>
-  <div>
-      <h3 v-if="address">Signed in with: {{ address }}</h3>
-      <button v-else @click="login()">
-        Login
-      </button>
-      
-      <div v-if="address">
-        <h3> Sign A transaction with Xumm</h3>
-        <button @click="sign()">
-          Sign TXJSON
-        </button>
-      </div>
+  <div class="container">
+    <div v-if="address">
+      <small>STEP 1:</small>
+      <h3>Signed in with:</h3>
+      <code>{{ address }}</code>
+    </div>
+    <button v-else @click="login()" class="login">Login</button>
+
+    <div v-if="address">
+      <hr />
+      <h3>
+        <small>STEP 2:</small>
+        Sign A transaction with Xumm
+      </h3>
+      <button @click="sign()" class="sign">Sign TXJSON</button>
+    </div>
   </div>
 </template>
 
 <script>
-import { XummPkce } from 'xumm-oauth2-pkce'
+import {XummPkce} from 'xumm-oauth2-pkce'
 
 export default {
   name: 'FrontPage',
@@ -23,15 +27,16 @@ export default {
     return {
       result: null,
       address: null,
+      // address: 'rLZekCdL2UtJ9mmqKJWiVzU3KPvb7VGvd4',
       token: null
     }
   },
   methods: {
     async login() {
       // Write your Xumm login logic here
-      console.log('I\'m the login button!')
+      console.log("I'm the login button!")
 
-      const auth = new XummPkce('b3b3c81d-2fdd-43aa-9092-219f81d5edad')
+      const auth = new XummPkce('3c19c35c-b925-4e9c-9fa8-fb916a12b1a0')
       this.result = await auth.authorize()
       console.log('Scan result:', this.result)
 
@@ -42,24 +47,23 @@ export default {
       console.log('Here we send the Transaction to the Xumm app')
 
       const payload = {
-        TransactionType: "Payment",
-        Destination: "ra5nK24KXen9AHvsdFTKHSANinZseWnPcX",
+        TransactionType: 'Payment',
+        Destination: 'ra5nK24KXen9AHvsdFTKHSANinZseWnPcX',
         Amount: '100000'
       }
 
       try {
-        
         const res = await fetch('https://xumm.app/api/v1/xapp-jwt/payload', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${this.token}`
           },
-          body: JSON.stringify({ txjson: payload })
+          body: JSON.stringify({txjson: payload})
         })
 
         console.log(res)
-      } catch(e) {
+      } catch (e) {
         console.log('Error while sending payload', e)
       }
     }
@@ -67,7 +71,4 @@ export default {
 }
 </script>
 
-<style scoped>
-
-</style>
-
+<style scoped></style>
