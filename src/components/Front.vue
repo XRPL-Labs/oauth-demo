@@ -27,7 +27,6 @@ export default {
     return {
       result: null,
       address: null,
-      // address: 'rLZekCdL2UtJ9mmqKJWiVzU3KPvb7VGvd4',
       token: null
     }
   },
@@ -36,7 +35,7 @@ export default {
       // Write your Xumm login logic here
       console.log("I'm the login button!")
 
-      const auth = new XummPkce('3c19c35c-b925-4e9c-9fa8-fb916a12b1a0')
+      const auth = new XummPkce(/* insert public api key here **/)
       this.result = await auth.authorize()
       console.log('Scan result:', this.result)
 
@@ -48,8 +47,8 @@ export default {
 
       const payload = {
         TransactionType: 'Payment',
-        Destination: 'ra5nK24KXen9AHvsdFTKHSANinZseWnPcX',
-        Amount: '100000'
+        Destination: 'rJR4MQt2egH9AmibZ8Hu5yTKVuLPv1xumm',
+        Amount: '1000000'
       }
 
       try {
